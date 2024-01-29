@@ -12,6 +12,7 @@ const galleryContainer = document.getElementById('gallery-container');
 const loadMoreBtn = document.getElementById('load-more');
 let searchTerm = '';
 let page = 1;
+let totalHits = 0;
 
 searchForm.addEventListener('submit', handleSearch);
 
@@ -31,16 +32,16 @@ async function handleSearch(event) {
     return;
   }
 
-  page = 1; // Reset page number on new search
+  page = 1;
   showLoadingIndicator();
   clearGallery();
 
   try {
     const responseData = await fetchImages();
     if (responseData.hits.length === 0) {
-      // Handle case when there are no results
       handleNoResults();
     } else {
+      totalHits = responseData.totalHits;
       updateGallery(responseData.hits);
       showLoadMoreButton();
     }
@@ -97,6 +98,7 @@ function handleLoadMore() {
       if (responseData.hits.length === 0) {
         handleNoResults();
       } else {
+        totalHits = responseData.totalHits;
         updateGallery(responseData.hits);
         smoothScrollToGallery();
       }
@@ -114,9 +116,10 @@ function handleLoadMore() {
 }
 
 function smoothScrollToGallery() {
-  const galleryHeight = document.querySelector('.gallery-item').getBoundingClientRect().height;
+  const galleryItemHeight = document.querySelector('.gallery-item').getBoundingClientRect().height;
+
   window.scrollBy({
-    top: galleryHeight * 2, // Scroll by two heights of a gallery item
+    top: galleryItemHeight * 2,
     behavior: 'smooth',
   });
 }
@@ -140,15 +143,47 @@ function updateGallery(images) {
     imageElement.alt = image.tags;
     imageElement.title = image.tags;
 
+    const imageDesc = document.createElement('ul');
+    imageDesc.classList.add('image-desc');
+
+    const likesDesc = document.createElement('li');
+    likesDesc.classList.add('image-desc-item');
+    likesDesc.innerHTML = `<p>Likes</p><p>${image.likes}</p>`;
+
+    const viewsDesc = document.createElement('li');
+    viewsDesc.classList.add('image-desc-item');
+    viewsDesc.innerHTML = `<p>Views</p><p>${image.views}</p>`;
+
+    const commentsDesc = document.createElement('li');
+    commentsDesc.classList.add('image-desc-item');
+    commentsDesc.innerHTML = `<p>Comments</p><p>${image.comments}</p>`;
+
+    const downloadsDesc = document.createElement('li');
+    downloadsDesc.classList.add('image-desc-item');
+    downloadsDesc.innerHTML = `<p>Downloads</p><p>${image.downloads}</p>`;
+
+    imageDesc.appendChild(likesDesc);
+    imageDesc.appendChild(viewsDesc);
+    imageDesc.appendChild(commentsDesc);
+    imageDesc.appendChild(downloadsDesc);
+
     imageLink.appendChild(imageElement);
     galleryItem.appendChild(imageLink);
+    galleryItem.appendChild(imageDesc);
 
     galleryContainer.appendChild(galleryItem);
   });
 
   lightbox.refresh();
-}
 
-function hideLoadMoreButton() {
-  loadMoreBtn.style.display = 'none';
+  if (totalHits <= page * 40) {
+    loadMoreBtn.style.display = 'none';
+    iziToast.show({
+      message: "We're sorry, but you've reached the end of search results.",
+      position: 'topRight',
+      backgroundColor: '#03a9f4',
+      titleColor: '#FFFFFF',
+      messageColor: '#FFFFFF',
+    });
+  }
 }

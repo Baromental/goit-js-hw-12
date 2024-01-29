@@ -100,3 +100,33 @@ button:focus {
   object-fit: cover;
   border-radius: 4px;
 }
+
+#end-of-collection {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #2e2f42;
+  margin-top: 20px;
+}
+
+#load-more {
+  width: 150px;
+  height: 40px;
+  background-color: #4e75ff;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 8px;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  margin-top: 20px;
+}
+
+#load-more:hover {
+  background-color: #6c8cff;
+}

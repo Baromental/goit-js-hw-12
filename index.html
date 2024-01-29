@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HW12</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox/dist/simplelightbox.min.css">
+  
+  <script type="module" crossorigin src="/goit-js-hw-12/commonHelpers.js"></script>
+  <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-da186403.js">
+  <link rel="stylesheet" href="/goit-js-hw-12/assets/vendor-a51daae5.css">
+  <link rel="stylesheet" href="/goit-js-hw-12/assets/index-96fc2f56.css">
+</head>
+
+<body>
+  <div class="search-container">
+    <form id="search-form">
+      <label for="search-input"></label>
+      <input type="text" id="search-input" placeholder="Search images..." name="search" required>
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <div id="loading-indicator" class="hidden">Loading images, please wait...</div>
+
+  <div id="gallery-container"></div>
+
+  <div id="end-of-collection" class="hidden">
+    We're sorry, but you've reached the end of search results.
+  </div>
+  <button id="load-more" class="hidden">Load more</button>
+
+  
+</body>
+
+</html>
